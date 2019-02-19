@@ -3,7 +3,7 @@
 //  Elijah Wood Freefly Challenge
 //
 //  Created by Elijah Wood on 2/14/19.
-//  Copyright © 2019 Elijah Wood. All rights reserved.
+//  Copyright © 2019 Frodes. All rights reserved.
 //
 
 import UIKit
