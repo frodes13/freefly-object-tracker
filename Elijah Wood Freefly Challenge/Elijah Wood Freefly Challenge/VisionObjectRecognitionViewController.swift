@@ -32,6 +32,9 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
         
         visionProcessor = VisionTrackerProcessor()
         visionProcessor.delegate = self
+        
+        // Hmm do I need this?
+        resetTracker()
     }
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
@@ -43,14 +46,14 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
         currentPixelBuffer = pixelBuffer
         
         if (currentState == .tracking) {
-            do {
-                try visionProcessor.performTracking(frame: pixelBuffer, type: .object)
-            } catch {
-                // handle error
+            workQueue.sync {
+                do {
+                    try self.visionProcessor.processFrame(frame: pixelBuffer)
+                } catch {
+                    // handle error
+                }
             }
         }
-        
-//        print("frame processed")
 
     }
     
@@ -67,17 +70,10 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
         case .began:
             // Initiate object selection
             let locationInView = gestureRecognizer.location(in: trackingView)
-//            if trackingView.isPointWithinDrawingArea(locationInView) {
-                trackingView.rubberbandingStart = locationInView // start new rubberbanding
-            print(locationInView)
-//            }
+            trackingView.rubberbandingStart = locationInView // start new rubberbanding
         case .changed:
             // Process resizing of the object's bounding box
             let translation = gestureRecognizer.translation(in: trackingView)
-//            let endPoint = trackingView.rubberbandingStart.applying(CGAffineTransform(translationX: translation.x, y: translation.y))
-//            guard trackingView.isPointWithinDrawingArea(endPoint) else {
-//                return
-//            }
             trackingView.rubberbandingVector = translation
             trackingView.setNeedsDisplay()
         case .ended:
@@ -89,28 +85,10 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
                 
                 displayFrame(objectsToTrack)
                 
-                #warning("create method here for start sequence")
                 if (currentState == .stopped) {
-                    
-                    currentState = .tracking
-                    #warning("state management & thread? wtf - want to run processing in background thread")
-                    
-                    visionProcessor.objectsToTrack = objectsToTrack
-                    workQueue.async {
-                        do {
-                            try self.visionProcessor.readAndDisplayFirstFrame(frame: self.currentPixelBuffer!, performRectanglesDetection: false)
-                        } catch {
-                            // handle
-                        }
-                    }
-                    
-
-                    
+                    startTracking()
                 }
-
-
                 
-                #warning ("Start track frame now")
             }
         default:
             break
@@ -118,7 +96,27 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
     }
     
     @IBAction func reset(_ sender: Any) {
+        resetTracker()
+    }
+    
+    func startTracking() {
+        // initialize processor
+        visionProcessor.objectsToTrack = objectsToTrack
+        self.currentState = .tracking // Start track
+
+//        workQueue.async {
+//            do {
+//                try self.visionProcessor.readAndDisplayFirstFrame(frame: self.currentPixelBuffer!, performRectanglesDetection: true)
+//            } catch {
+//                self.handleError(error)
+//            }
+//        }
+    }
+    
+    func resetTracker() {
         self.objectsToTrack.removeAll()
+//        self.visionProcessor.reset()
+//        self.currentState = .stopped // Stop track
         displayFrame(objectsToTrack)
     }
 }
@@ -126,6 +124,10 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
 extension VisionObjectRecognitionViewController: VisionTrackerProcessorDelegate {
     func displayFrame(_ rects: [TrackedPolyRect]?) {
         DispatchQueue.main.async {
+            
+            let ciImage = CIImage(cvPixelBuffer: self.currentPixelBuffer!)
+            let uiImage = UIImage(ciImage: ciImage)
+            self.trackingView.image = uiImage
             
             self.trackingView.polyRects = rects ?? self.objectsToTrack // Default
             self.trackingView.rubberbandingStart = CGPoint.zero
@@ -141,12 +143,12 @@ extension VisionObjectRecognitionViewController: VisionTrackerProcessorDelegate 
 //        }
 //    }
     
-    func didFinishTracking() {
-        workQueue.async {
-//            self.displayFirstVideoFrame()
-        }
-        DispatchQueue.main.async {
-//            self.state = .stopped
-        }
-    }
+//    func didFinishTracking() {
+//        workQueue.async {
+////            self.displayFirstVideoFrame()
+//        }
+//        DispatchQueue.main.async {
+////            self.state = .stopped
+//        }
+//    }
 }

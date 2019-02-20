@@ -30,32 +30,24 @@ class TrackingImageView: UIView {
     }
 
     var rubberbandingRectNormalized: CGRect {
-//        guard imageAreaRect.size.width > 0 && imageAreaRect.size.height > 0 else {
-//            return CGRect.zero
-//        }
+        guard imageAreaRect.size.width > 0 && imageAreaRect.size.height > 0 else {
+            return CGRect.zero
+        }
         
-//        var rect = rubberbandingRect
+        var rect = rubberbandingRect
         
-        #warning ("relativity")
-//        // Make it relative to imageAreaRect
-//        rect.origin.x = (rect.origin.x - self.imageAreaRect.origin.x) / self.imageAreaRect.size.width
-//        rect.origin.y = (rect.origin.y - self.imageAreaRect.origin.y) / self.imageAreaRect.size.height
-//        rect.size.width /= self.imageAreaRect.size.width
-//        rect.size.height /= self.imageAreaRect.size.height
-        
+        // Make it relative to imageAreaRect
+        rect.origin.x = (rect.origin.x - self.imageAreaRect.origin.x) / self.imageAreaRect.size.width
+        rect.origin.y = (rect.origin.y - self.imageAreaRect.origin.y) / self.imageAreaRect.size.height
+        rect.size.width /= self.imageAreaRect.size.width
+        rect.size.height /= self.imageAreaRect.size.height
         
         // Adjust to Vision.framework input requrement - origin at LLC
-//        rect.origin.y = 1.0 - rect.origin.y - rect.size.height
+        rect.origin.y = 1.0 - rect.origin.y - rect.size.height
         
-        return rubberbandingRect
+        return rect
     }
 
-    #warning("unneeded")
-//    func isPointWithinDrawingArea(_ locationInView: CGPoint) -> Bool {
-//        print(self.imageAreaRect)
-//        return self.imageAreaRect.contains(locationInView)
-//    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         self.setNeedsDisplay()
@@ -69,6 +61,13 @@ class TrackingImageView: UIView {
         ctx.clear(rect)
         ctx.setFillColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         ctx.setLineWidth(2.0)
+        
+        // Draw a frame
+        guard let newImage = scaleImage(to: rect.size) else {
+            return
+        }
+        
+//        newImage.draw(at: self.imageAreaRect.origin)
         
         // Draw rubberbanding rectangle, if available
         if self.rubberbandingRect != CGRect.zero {
@@ -102,59 +101,59 @@ class TrackingImageView: UIView {
         ctx.restoreGState()
     }
 
-//    private func scaleImage(to viewSize: CGSize) -> UIImage? {
-//        guard self.image != nil && self.image.size != CGSize.zero else {
-//            return nil
-//        }
-//
-//        self.imageAreaRect = CGRect.zero
-//
-//        // There are two possible cases to fully fit self.image into the the ImageTrackingView area:
-//        // Option 1) image.width = view.width ==> image.height <= view.height
-//        // Option 2) image.height = view.height ==> image.width <= view.width
-//        let imageAspectRatio = self.image.size.width / self.image.size.height
-//
-//        // Check if we're in Option 1) case and initialize self.imageAreaRect accordingly
-//        let imageSizeOption1 = CGSize(width: viewSize.width, height: floor(viewSize.width / imageAspectRatio))
-//        if imageSizeOption1.height <= viewSize.height {
-//            let imageX: CGFloat = 0
-//            let imageY = floor((viewSize.height - imageSizeOption1.height) / 2.0)
-//            self.imageAreaRect = CGRect(x: imageX,
-//                                        y: imageY,
-//                                        width: imageSizeOption1.width,
-//                                        height: imageSizeOption1.height)
-//        }
-//
-//        if self.imageAreaRect == CGRect.zero {
-//            // Check if we're in Option 2) case if Option 1) didn't work out and initialize imageAreaRect accordingly
-//            let imageSizeOption2 = CGSize(width: floor(viewSize.height * imageAspectRatio), height: viewSize.height)
-//            if imageSizeOption2.width <= viewSize.width {
-//                let imageX = floor((viewSize.width - imageSizeOption2.width) / 2.0)
-//                let imageY: CGFloat = 0
-//                self.imageAreaRect = CGRect(x: imageX,
-//                                            y: imageY,
-//                                            width: imageSizeOption2.width,
-//                                            height: imageSizeOption2.height)
-//            }
-//        }
-//
-//        // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
-//        // Pass 1.0 to force exact pixel size.
-//        UIGraphicsBeginImageContextWithOptions(self.imageAreaRect.size, false, 0.0)
-//        self.image.draw(in: CGRect(x: 0.0, y: 0.0, width: self.imageAreaRect.size.width, height: self.imageAreaRect.size.height))
-//
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//
-//        return newImage
-//    }
+    private func scaleImage(to viewSize: CGSize) -> UIImage? {
+        guard self.image != nil && self.image.size != CGSize.zero else {
+            return nil
+        }
+
+        self.imageAreaRect = CGRect.zero
+
+        // There are two possible cases to fully fit self.image into the the ImageTrackingView area:
+        // Option 1) image.width = view.width ==> image.height <= view.height
+        // Option 2) image.height = view.height ==> image.width <= view.width
+        let imageAspectRatio = self.image.size.width / self.image.size.height
+
+        // Check if we're in Option 1) case and initialize self.imageAreaRect accordingly
+        let imageSizeOption1 = CGSize(width: viewSize.width, height: floor(viewSize.width / imageAspectRatio))
+        if imageSizeOption1.height <= viewSize.height {
+            let imageX: CGFloat = 0
+            let imageY = floor((viewSize.height - imageSizeOption1.height) / 2.0)
+            self.imageAreaRect = CGRect(x: imageX,
+                                        y: imageY,
+                                        width: imageSizeOption1.width,
+                                        height: imageSizeOption1.height)
+        }
+
+        if self.imageAreaRect == CGRect.zero {
+            // Check if we're in Option 2) case if Option 1) didn't work out and initialize imageAreaRect accordingly
+            let imageSizeOption2 = CGSize(width: floor(viewSize.height * imageAspectRatio), height: viewSize.height)
+            if imageSizeOption2.width <= viewSize.width {
+                let imageX = floor((viewSize.width - imageSizeOption2.width) / 2.0)
+                let imageY: CGFloat = 0
+                self.imageAreaRect = CGRect(x: imageX,
+                                            y: imageY,
+                                            width: imageSizeOption2.width,
+                                            height: imageSizeOption2.height)
+            }
+        }
+
+        // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+        // Pass 1.0 to force exact pixel size.
+        UIGraphicsBeginImageContextWithOptions(self.imageAreaRect.size, false, 0.0)
+        self.image.draw(in: CGRect(x: 0.0, y: 0.0, width: self.imageAreaRect.size.width, height: self.imageAreaRect.size.height))
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage // newImage
+    }
     
     private func scale(cornerPoint point: CGPoint, toImageViewPointInViewRect viewRect: CGRect) -> CGPoint {
-        return point
-//        // Adjust bBox from Vision.framework coordinate system (origin at LLC) to imageView coordinate system (origin at ULC)
-//        let pointY = 1.0 - point.y
-//        let scaleFactor = self.imageAreaRect.size
-//
-//        return CGPoint(x: point.x * scaleFactor.width + self.imageAreaRect.origin.x, y: pointY * scaleFactor.height + self.imageAreaRect.origin.y)
+
+        // Adjust bBox from Vision.framework coordinate system (origin at LLC) to imageView coordinate system (origin at ULC)
+        let pointY = 1.0 - point.y
+        let scaleFactor = self.imageAreaRect.size
+
+        return CGPoint(x: point.x * scaleFactor.width + self.imageAreaRect.origin.x, y: pointY * scaleFactor.height + self.imageAreaRect.origin.y)
     }
 }
