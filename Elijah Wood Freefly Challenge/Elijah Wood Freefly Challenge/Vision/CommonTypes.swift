@@ -1,57 +1,19 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Defines common types used throughout the sample.
-*/
+//
+//  CommonTypes.swift
+//  Elijah Wood Freefly Challenge
+//
+//  Created by Elijah Wood on 2/18/19.
+//  Based on Vision sample by Apple Inc.
+//  Copyright © 2019 Frodes. All rights reserved.
+//
 
 import Foundation
 import UIKit
 import Vision
 
-enum TrackedObjectType: Int {
-    case object
-    case rectangle
-}
-
 enum TrackedPolyRectStyle: Int {
     case solid
     case dashed
-}
-
-struct TrackedObjectsPalette {
-    static var palette = [
-        UIColor.green,
-        UIColor.cyan,
-        UIColor.orange,
-        UIColor.brown,
-        UIColor.darkGray,
-        UIColor.red,
-        UIColor.yellow,
-        UIColor.magenta,
-        #colorLiteral(red: 0, green: 1, blue: 0, alpha: 1), // light green
-        UIColor.gray,
-        UIColor.purple,
-        UIColor.clear,
-        #colorLiteral(red: 0, green: 0.9800859094, blue: 0.941437602, alpha: 1),   // light blue
-        UIColor.lightGray,
-        UIColor.black,
-        UIColor.blue
-    ]
-    
-    static func color(atIndex index: Int) -> UIColor {
-        if index < palette.count {
-            return palette[index]
-        }
-        return randomColor()
-    }
-    
-    static func randomColor() -> UIColor {
-        func randomComponent() -> CGFloat {
-            return CGFloat(arc4random_uniform(256)) / 255.0
-        }
-        return UIColor(red: randomComponent(), green: randomComponent(), blue: randomComponent(), alpha: 1.0)
-    }
 }
 
 struct TrackedPolyRect {

@@ -9,7 +9,12 @@
 /* Begin PBXBuildFile section */
 		5423560C221BC75F002CBD1A /* VisionTrackerProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5423560B221BC75E002CBD1A /* VisionTrackerProcessor.swift */; };
 		5423560E221BC76C002CBD1A /* CommonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5423560D221BC76C002CBD1A /* CommonTypes.swift */; };
-		54235612221BCD0F002CBD1A /* TrackingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235611221BCD0F002CBD1A /* TrackingImageView.swift */; };
+		548917BA221E3DC400520B81 /* BTLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548917B1221E3DC300520B81 /* BTLE.swift */; };
+		548917BB221E3DC400520B81 /* QX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548917B2221E3DC300520B81 /* QX.swift */; };
+		548917BC221E3DC400520B81 /* QX_Protocol_App.c in Sources */ = {isa = PBXBuildFile; fileRef = 548917B4221E3DC300520B81 /* QX_Protocol_App.c */; };
+		548917BD221E3DC400520B81 /* QX_Parsing_Functions.c in Sources */ = {isa = PBXBuildFile; fileRef = 548917B7221E3DC400520B81 /* QX_Parsing_Functions.c */; };
+		548917BE221E3DC400520B81 /* QX_Protocol.c in Sources */ = {isa = PBXBuildFile; fileRef = 548917B8221E3DC400520B81 /* QX_Protocol.c */; };
+		548917C1221E3E7600520B81 /* TrackingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548917C0221E3E7500520B81 /* TrackingImageView.swift */; };
 		548E1B252216943200493729 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */; };
 		549661BB2215FE2200863AF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549661BA2215FE2200863AF0 /* AppDelegate.swift */; };
 		549661BD2215FE2200863AF0 /* CaptureSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */; };
@@ -21,9 +26,19 @@
 /* Begin PBXFileReference section */
 		5423560B221BC75E002CBD1A /* VisionTrackerProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionTrackerProcessor.swift; sourceTree = "<group>"; };
 		5423560D221BC76C002CBD1A /* CommonTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTypes.swift; sourceTree = "<group>"; };
-		54235611221BCD0F002CBD1A /* TrackingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingImageView.swift; sourceTree = "<group>"; };
+		548917AF221E3DC300520B81 /* FF_API_IOS-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FF_API_IOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		548917B0221E3DC300520B81 /* QX_App_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_App_Config.h; sourceTree = "<group>"; };
+		548917B1221E3DC300520B81 /* BTLE.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTLE.swift; sourceTree = "<group>"; };
+		548917B2221E3DC300520B81 /* QX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QX.swift; sourceTree = "<group>"; };
+		548917B3221E3DC300520B81 /* QX_Protocol_App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_Protocol_App.h; sourceTree = "<group>"; };
+		548917B4221E3DC300520B81 /* QX_Protocol_App.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QX_Protocol_App.c; sourceTree = "<group>"; };
+		548917B6221E3DC400520B81 /* QX_Protocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_Protocol.h; sourceTree = "<group>"; };
+		548917B7221E3DC400520B81 /* QX_Parsing_Functions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QX_Parsing_Functions.c; sourceTree = "<group>"; };
+		548917B8221E3DC400520B81 /* QX_Protocol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QX_Protocol.c; sourceTree = "<group>"; };
+		548917B9221E3DC400520B81 /* QX_Parsing_Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_Parsing_Functions.h; sourceTree = "<group>"; };
+		548917C0221E3E7500520B81 /* TrackingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingImageView.swift; sourceTree = "<group>"; };
 		548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
-		549661B72215FE2200863AF0 /* Elijah Wood Freefly Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Elijah Wood Freefly Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		549661B72215FE2200863AF0 /* FF Object Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FF Object Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		549661BA2215FE2200863AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionBaseViewController.swift; sourceTree = "<group>"; };
 		549661BF2215FE2200863AF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -43,14 +58,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		54235610221BC77C002CBD1A /* Attribution */ = {
+		54235610221BC77C002CBD1A /* Vision */ = {
 			isa = PBXGroup;
 			children = (
 				5423560D221BC76C002CBD1A /* CommonTypes.swift */,
-				54235611221BCD0F002CBD1A /* TrackingImageView.swift */,
+				548917C0221E3E7500520B81 /* TrackingImageView.swift */,
 				5423560B221BC75E002CBD1A /* VisionTrackerProcessor.swift */,
 			);
-			path = Attribution;
+			path = Vision;
+			sourceTree = "<group>";
+		};
+		548917AE221E3DC300520B81 /* QX */ = {
+			isa = PBXGroup;
+			children = (
+				548917AF221E3DC300520B81 /* FF_API_IOS-Bridging-Header.h */,
+				548917B0221E3DC300520B81 /* QX_App_Config.h */,
+				548917B1221E3DC300520B81 /* BTLE.swift */,
+				548917B2221E3DC300520B81 /* QX.swift */,
+				548917B3221E3DC300520B81 /* QX_Protocol_App.h */,
+				548917B4221E3DC300520B81 /* QX_Protocol_App.c */,
+			);
+			path = QX;
+			sourceTree = "<group>";
+		};
+		548917B5221E3DC300520B81 /* QX_Lib */ = {
+			isa = PBXGroup;
+			children = (
+				548917B6221E3DC400520B81 /* QX_Protocol.h */,
+				548917B7221E3DC400520B81 /* QX_Parsing_Functions.c */,
+				548917B8221E3DC400520B81 /* QX_Protocol.c */,
+				548917B9221E3DC400520B81 /* QX_Parsing_Functions.h */,
+			);
+			path = QX_Lib;
+			sourceTree = "<group>";
+		};
+		548917BF221E3DE400520B81 /* FF API */ = {
+			isa = PBXGroup;
+			children = (
+				548917AE221E3DC300520B81 /* QX */,
+				548917B5221E3DC300520B81 /* QX_Lib */,
+			);
+			path = "FF API";
 			sourceTree = "<group>";
 		};
 		549661AE2215FE2200863AF0 = {
@@ -64,7 +112,7 @@
 		549661B82215FE2200863AF0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				549661B72215FE2200863AF0 /* Elijah Wood Freefly Challenge.app */,
+				549661B72215FE2200863AF0 /* FF Object Tracker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -75,7 +123,8 @@
 				549661BA2215FE2200863AF0 /* AppDelegate.swift */,
 				549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */,
 				548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */,
-				54235610221BC77C002CBD1A /* Attribution */,
+				54235610221BC77C002CBD1A /* Vision */,
+				548917BF221E3DE400520B81 /* FF API */,
 				549661BE2215FE2200863AF0 /* Main.storyboard */,
 				549661C12215FE2400863AF0 /* Assets.xcassets */,
 				549661C32215FE2400863AF0 /* LaunchScreen.storyboard */,
@@ -87,9 +136,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		549661B62215FE2200863AF0 /* Elijah Wood Freefly Challenge */ = {
+		549661B62215FE2200863AF0 /* FF Object Tracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "Elijah Wood Freefly Challenge" */;
+			buildConfigurationList = 549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "FF Object Tracker" */;
 			buildPhases = (
 				549661B32215FE2200863AF0 /* Sources */,
 				549661B42215FE2200863AF0 /* Frameworks */,
@@ -99,9 +148,9 @@
 			);
 			dependencies = (
 			);
-			name = "Elijah Wood Freefly Challenge";
+			name = "FF Object Tracker";
 			productName = "Elijah Wood Freefly Challenge";
-			productReference = 549661B72215FE2200863AF0 /* Elijah Wood Freefly Challenge.app */;
+			productReference = 549661B72215FE2200863AF0 /* FF Object Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -119,7 +168,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 549661B22215FE2200863AF0 /* Build configuration list for PBXProject "Elijah Wood Freefly Challenge" */;
+			buildConfigurationList = 549661B22215FE2200863AF0 /* Build configuration list for PBXProject "FF Object Tracker" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -132,7 +181,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				549661B62215FE2200863AF0 /* Elijah Wood Freefly Challenge */,
+				549661B62215FE2200863AF0 /* FF Object Tracker */,
 			);
 		};
 /* End PBXProject section */
@@ -155,12 +204,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				548917BC221E3DC400520B81 /* QX_Protocol_App.c in Sources */,
 				549661BD2215FE2200863AF0 /* CaptureSessionBaseViewController.swift in Sources */,
 				5423560E221BC76C002CBD1A /* CommonTypes.swift in Sources */,
 				548E1B252216943200493729 /* VisionObjectRecognitionViewController.swift in Sources */,
-				54235612221BCD0F002CBD1A /* TrackingImageView.swift in Sources */,
+				548917BD221E3DC400520B81 /* QX_Parsing_Functions.c in Sources */,
+				548917BB221E3DC400520B81 /* QX.swift in Sources */,
 				549661BB2215FE2200863AF0 /* AppDelegate.swift in Sources */,
+				548917BA221E3DC400520B81 /* BTLE.swift in Sources */,
+				548917C1221E3E7600520B81 /* TrackingImageView.swift in Sources */,
 				5423560C221BC75F002CBD1A /* VisionTrackerProcessor.swift in Sources */,
+				548917BE221E3DC400520B81 /* QX_Protocol.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +369,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "frodes.Elijah-Wood-Freefly-Challenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Elijah Wood Freefly Challenge/FF API/QX/FF_API_IOS-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -333,6 +388,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "frodes.Elijah-Wood-Freefly-Challenge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Elijah Wood Freefly Challenge/FF API/QX/FF_API_IOS-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -341,7 +397,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		549661B22215FE2200863AF0 /* Build configuration list for PBXProject "Elijah Wood Freefly Challenge" */ = {
+		549661B22215FE2200863AF0 /* Build configuration list for PBXProject "FF Object Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				549661C72215FE2400863AF0 /* Debug */,
@@ -350,7 +406,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "Elijah Wood Freefly Challenge" */ = {
+		549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "FF Object Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				549661CA2215FE2400863AF0 /* Debug */,

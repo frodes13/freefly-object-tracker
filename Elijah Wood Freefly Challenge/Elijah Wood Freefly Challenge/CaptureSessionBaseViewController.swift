@@ -11,17 +11,13 @@ import AVFoundation
 import Vision
 
 class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-
-    @IBOutlet weak var MLPredictionLabel: UILabel!
-    @IBOutlet weak var MLPredictionIsCatLabel: UILabel!
-    
-    var bufferSize: CGSize = .zero
     
     @IBOutlet weak private var previewView: UIView!
+    
     private let captureSession = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let captureOutput = AVCaptureVideoDataOutput()
-    
+    private var movieOutput = AVCaptureMovieFileOutput()
     private let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     
     override func viewDidLoad() {
@@ -30,84 +26,70 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
     }
     
     func initializeCaptureSession() {
-        
-        var deviceInput: AVCaptureDeviceInput!
-
         // Instantiate AVCaptureSession
         
-        // Find available capture devices
-        let videoDeviceInput = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .back).devices.first
-        do {
-            deviceInput = try AVCaptureDeviceInput(device: videoDeviceInput!)
-        } catch {
-            print("Could not create video device input: \(error)")
-            return
-        }
-        
-        // Optimize for Vision efficiency?
+        // Start configuration
         captureSession.beginConfiguration()
-//        captureSession.sessionPreset = .vga640x480 // Model image size is smaller.
+        
+        // Find available capture devices
+        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        guard
+            let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
+            captureSession.canAddInput(videoDeviceInput)
+            else { return }
         
         // Connect device to AVCaptureSession
-        captureSession.addInput(deviceInput)
-        captureSession.commitConfiguration()
+        captureSession.addInput(videoDeviceInput)
+
+        // Should we optimize for Vision efficiency?
         
         // Add output to AVCaptureSession
-        if captureSession.canAddOutput(captureOutput) {
-            captureSession.addOutput(captureOutput)
-            
-            // Add a video data output
-            captureOutput.alwaysDiscardsLateVideoFrames = true
-            captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
-            captureOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
-        } else {
+        guard captureSession.canAddOutput(captureOutput) else {
             print("Could not add video data output to the session")
-            captureSession.commitConfiguration()
             return
         }
+
+        captureSession.addOutput(captureOutput)
+
+        // Add a video data output
+        captureOutput.alwaysDiscardsLateVideoFrames = true
+        captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
+        captureOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
         
-//
-//        let captureConnection = captureOutput.connection(with: .video)
-//
-//        // Always process the frames
-//        captureConnection?.isEnabled = true
-//        do {
-//            try  videoDeviceInput!.lockForConfiguration()
-//            let dimensions = CMVideoFormatDescriptionGetDimensions((videoDeviceInput?.activeFormat.formatDescription)!)
-//            bufferSize.width = CGFloat(dimensions.width)
-//            bufferSize.height = CGFloat(dimensions.height)
-//            videoDeviceInput!.unlockForConfiguration()
-//        } catch {
-//            print(error)
-//        }
-        
-        
+        // End configuration
         captureSession.commitConfiguration()
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         
-        // Set locked orientation
-        previewLayer.connection?.videoOrientation = .landscapeRight
+        // Preview View
+        // Need to make sure visual aligns properly with the image track
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.connection?.videoOrientation = .landscapeRight // Set locked orientation
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         previewLayer.frame = self.view.bounds
         previewView.layer.addSublayer(previewLayer)
     
     }
-    
-    // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        // Subclass
-        
-    }
 
+    // MARK: Control functions
     func startCaptureSession() {
         captureSession.startRunning()
+    }
+    
+    // Eventually ability to record simultaneously using AVAssetWriter
+    func startRecording() {
+    }
+    
+    func stopRecording() {
     }
     
     // Clean up capture setup
     func teardownAVCapture() {
         previewLayer.removeFromSuperlayer()
         previewLayer = nil
+    }
+    
+    // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // Subclass
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput, didDrop didDropSampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {

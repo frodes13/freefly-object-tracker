@@ -1,11 +1,11 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Contains the tracker processing logic using Vision.
-*/
-
-#warning("Modified")
+//
+//  VisionTrackerProcessor.swift
+//  Elijah Wood Freefly Challenge
+//
+//  Created by Elijah Wood on 2/18/19.
+//  Based on Vision sample by Apple Inc.
+//  Copyright © 2019 Frodes. All rights reserved.
+//
 
 import AVFoundation
 import UIKit
@@ -26,20 +26,19 @@ class VisionTrackerProcessor {
     var trackingLevel = VNRequestTrackingLevel.accurate
     var objectsToTrack = [TrackedPolyRect]()
     weak var delegate: VisionTrackerProcessorDelegate?
+    var centerDetectedObservation: CGPoint = CGPoint.zero // Keep this updated to indicate the center of our detected observation
 
     private var initialRectObservations = [VNRectangleObservation]()
     
-    // Create initial observations
+    // Declare initial observations
     private var inputObservations = [UUID: VNDetectedObjectObservation]()
     private var trackedObjects = [UUID: TrackedPolyRect]()
     private var requestHandler: VNSequenceRequestHandler!
     private var trackingFailedForAtLeastOneObject = false
     private var didInitialize = false
     
-    /// - Tag: SetInitialCondition
-    /// - Tag: InitializeTrackerProcessor
+    // MARK: InitializeTrackerProcessor
     func initializeTrackerProcessor() {
-    
         inputObservations = [UUID: VNDetectedObjectObservation]()
         trackedObjects = [UUID: TrackedPolyRect]()
         
@@ -50,15 +49,11 @@ class VisionTrackerProcessor {
         }
         
         requestHandler = VNSequenceRequestHandler()
-        
+    
         didInitialize = true
     }
-    
-    func reset() {
-        didInitialize = false
-    }
 
-    /// - Tag: ProcessFrame
+    // MARK: ProcessFrame
     func processFrame(frame: CVPixelBuffer) throws {
         
         // Confirm proper initialization
@@ -79,7 +74,6 @@ class VisionTrackerProcessor {
         // Perform array of requests
         do {
             try requestHandler.perform(trackingRequests, on: frame, orientation: .up)
-            #warning("orientation property?")
         } catch {
             print(error)
             trackingFailedForAtLeastOneObject = true
@@ -101,46 +95,24 @@ class VisionTrackerProcessor {
             // Initialize inputObservation for the next iteration
             inputObservations[observation.uuid] = observation
         }
+        
+        // Assume there is only one rectangle given our restrictions for VNDetectedObjectObservation's
+        calculateDetectedObservationCenter(rects.first?.boundingBox ?? CGRect.zero)
 
         // Draw results
         delegate?.displayFrame(rects)
         
         if trackingFailedForAtLeastOneObject {
-            print ("PENIS ERROR")
             throw VisionTrackerProcessorError.objectTrackingFailed
         }
     }
-
-    func readAndDisplayFirstFrame(frame: CVPixelBuffer, performRectanglesDetection: Bool) throws {
-
-        var firstFrameRects: [TrackedPolyRect]? = nil
-        if performRectanglesDetection {
-            // Vision Rectangle Detection
-            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: frame, orientation: .up, options: [:]) // Force left orientation
-
-            let rectangleDetectionRequest = VNDetectRectanglesRequest()
-            rectangleDetectionRequest.minimumAspectRatio = VNAspectRatio(0.2)
-            rectangleDetectionRequest.maximumAspectRatio = VNAspectRatio(1.0)
-            rectangleDetectionRequest.minimumSize = Float(0.1)
-            rectangleDetectionRequest.maximumObservations = Int(10)
-
-            do {
-                try imageRequestHandler.perform([rectangleDetectionRequest])
-            } catch {
-                throw VisionTrackerProcessorError.rectangleDetectionFailed
-            }
-
-            if let rectObservations = rectangleDetectionRequest.results as? [VNRectangleObservation] {
-                initialRectObservations = rectObservations
-                var detectedRects = [TrackedPolyRect]()
-                for (index, rectangleObservation) in initialRectObservations.enumerated() {
-                    let rectColor = TrackedObjectsPalette.color(atIndex: index)
-                    detectedRects.append(TrackedPolyRect(observation: rectangleObservation, color: rectColor))
-                }
-                firstFrameRects = detectedRects
-            }
-        }
-
-        delegate?.displayFrame(firstFrameRects)
+    
+    func calculateDetectedObservationCenter(_ rect: CGRect) {
+        centerDetectedObservation = CGPoint(x: rect.midX, y: rect.midY)
+    }
+    
+    // MARK: Reset initial conditions
+    func reset() {
+        didInitialize = false
     }
 }

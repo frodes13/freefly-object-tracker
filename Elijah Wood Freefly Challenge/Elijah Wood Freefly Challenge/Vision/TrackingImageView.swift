@@ -1,9 +1,11 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Implements the main tracking image view.
-*/
+//
+//  VisionObjectRecognitionViewController.swift
+//  Elijah Wood Freefly Challenge
+//
+//  Created by Elijah Wood on 2/14/19.
+//  Based on Vision sample by Apple Inc.
+//  Copyright © 2019 Frodes. All rights reserved.
+//
 
 import Foundation
 import UIKit
@@ -62,12 +64,10 @@ class TrackingImageView: UIView {
         ctx.setFillColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         ctx.setLineWidth(2.0)
         
-        // Draw a frame
-        guard let newImage = scaleImage(to: rect.size) else {
+        // Make sure image scaling is correctly applied
+        guard scaleImage(to: rect.size) != nil else {
             return
         }
-        
-//        newImage.draw(at: self.imageAreaRect.origin)
         
         // Draw rubberbanding rectangle, if available
         if self.rubberbandingRect != CGRect.zero {
@@ -88,10 +88,10 @@ class TrackingImageView: UIView {
                 ctx.setLineDash(phase: dashedPhase, lengths: dashedLinesLengths)
             }
             let cornerPoints = polyRect.cornerPoints
-            var previous = scale(cornerPoint: cornerPoints[cornerPoints.count - 1], toImageViewPointInViewRect: rect)
+            var previous = scale(cornerPoint: cornerPoints[cornerPoints.count - 1])
             for cornerPoint in cornerPoints {
                 ctx.move(to: previous)
-                let current = scale(cornerPoint: cornerPoint, toImageViewPointInViewRect: rect)
+                let current = scale(cornerPoint: cornerPoint)
                 ctx.addLine(to: current)
                 previous = current
             }
@@ -148,7 +148,7 @@ class TrackingImageView: UIView {
         return newImage // newImage
     }
     
-    private func scale(cornerPoint point: CGPoint, toImageViewPointInViewRect viewRect: CGRect) -> CGPoint {
+    func scale(cornerPoint point: CGPoint) -> CGPoint {
 
         // Adjust bBox from Vision.framework coordinate system (origin at LLC) to imageView coordinate system (origin at ULC)
         let pointY = 1.0 - point.y
@@ -156,4 +156,5 @@ class TrackingImageView: UIView {
 
         return CGPoint(x: point.x * scaleFactor.width + self.imageAreaRect.origin.x, y: pointY * scaleFactor.height + self.imageAreaRect.origin.y)
     }
+    
 }
