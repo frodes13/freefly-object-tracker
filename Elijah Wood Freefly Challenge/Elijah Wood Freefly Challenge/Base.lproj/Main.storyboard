@@ -50,7 +50,6 @@
                                         </state>
                                         <connections>
                                             <action selector="connect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fFW-bw-rGj"/>
-                                            <action selector="reset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vOD-sU-aAg"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO CONNECTION" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KcF-6G-Nsz">
@@ -74,11 +73,25 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zG-PD-Npj">
+                                        <rect key="frame" x="435" y="11" width="60" height="33"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="eSF-R6-qNL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="THIRDS">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="thirds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f6P-d2-V79"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="3zG-PD-Npj" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="11" id="8Ea-xb-nJ0"/>
                                     <constraint firstItem="cpY-YW-T54" firstAttribute="leading" secondItem="r4g-ep-GYm" secondAttribute="leading" constant="52" id="DGx-bb-2aP"/>
                                     <constraint firstItem="dh9-EG-5gN" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="11" id="GWl-nJ-zrs"/>
-                                    <constraint firstItem="dh9-EG-5gN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cpY-YW-T54" secondAttribute="trailing" constant="10" id="R0w-Ap-5Wv"/>
+                                    <constraint firstItem="3zG-PD-Npj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cpY-YW-T54" secondAttribute="trailing" id="Nbb-Tc-eyW"/>
                                     <constraint firstAttribute="bottom" secondItem="mhn-cL-Fgm" secondAttribute="bottom" constant="29" id="RRV-Uq-sr9"/>
                                     <constraint firstItem="cpY-YW-T54" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="10" id="aOB-pu-hMl"/>
                                     <constraint firstAttribute="trailing" secondItem="mhn-cL-Fgm" secondAttribute="trailing" id="eKQ-oD-H6Q"/>
@@ -86,6 +99,7 @@
                                     <constraint firstItem="KcF-6G-Nsz" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="13" id="eew-Fi-beU"/>
                                     <constraint firstAttribute="trailing" secondItem="KcF-6G-Nsz" secondAttribute="trailing" constant="52" id="h5X-K2-HAM"/>
                                     <constraint firstItem="mhn-cL-Fgm" firstAttribute="leading" secondItem="r4g-ep-GYm" secondAttribute="leading" id="iYF-qh-nnF"/>
+                                    <constraint firstItem="dh9-EG-5gN" firstAttribute="leading" secondItem="3zG-PD-Npj" secondAttribute="trailing" constant="67" id="nQA-hz-nor"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="H8A-wP-Rqf" appends="YES" id="lEO-z3-dfa"/>
@@ -110,6 +124,7 @@
                         <outlet property="connectionLabel" destination="KcF-6G-Nsz" id="09O-KW-otz"/>
                         <outlet property="previewView" destination="TYb-yI-Wun" id="nJx-NL-AVW"/>
                         <outlet property="statusLabel" destination="mhn-cL-Fgm" id="sNM-3z-sKf"/>
+                        <outlet property="thirdsButton" destination="3zG-PD-Npj" id="aNb-60-nfW"/>
                         <outlet property="trackingView" destination="r4g-ep-GYm" id="Ihf-4K-AeM"/>
                     </connections>
                 </viewController>

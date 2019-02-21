@@ -30,12 +30,14 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     // State tracking
     private var trackingState: TrackingState = .stopped
     private var connectionState: ConnectionState = .disconnected
+    private var isThirds = false
     
     // IBOutlets
     @IBOutlet weak var trackingView: TrackingImageView!
     @IBOutlet weak var connectionButton: UIButton!
     @IBOutlet weak var connectionLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var thirdsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,6 +132,12 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     
     // Return the delta between our display center and our detected observation center
     func getTrackingCenterDelta() -> CGPoint {
+        
+        #warning("feature")
+        if (isThirds) {
+            
+        }
+        
         return CGPoint(x: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).x - trackingView.center.x, y: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).y - trackingView.center.y)
     }
     
@@ -198,6 +206,11 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         } else {
             disconnectMovi()
         }
+    }
+    
+    @IBAction func thirds(_ sender: Any) {
+        isThirds = !isThirds
+        thirdsButton.setTitleColor(isThirds ? UIColor.green : UIColor.white , for: .normal)
     }
     
     func connectMovi() {
