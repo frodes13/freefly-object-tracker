@@ -15,7 +15,7 @@
 		548917BD221E3DC400520B81 /* QX_Parsing_Functions.c in Sources */ = {isa = PBXBuildFile; fileRef = 548917B7221E3DC400520B81 /* QX_Parsing_Functions.c */; };
 		548917BE221E3DC400520B81 /* QX_Protocol.c in Sources */ = {isa = PBXBuildFile; fileRef = 548917B8221E3DC400520B81 /* QX_Protocol.c */; };
 		548917C1221E3E7600520B81 /* TrackingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548917C0221E3E7500520B81 /* TrackingImageView.swift */; };
-		548E1B252216943200493729 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */; };
+		548E1B252216943200493729 /* VisionTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548E1B242216943200493729 /* VisionTrackerViewController.swift */; };
 		549661BB2215FE2200863AF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549661BA2215FE2200863AF0 /* AppDelegate.swift */; };
 		549661BD2215FE2200863AF0 /* CaptureSessionBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */; };
 		549661C02215FE2200863AF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 549661BE2215FE2200863AF0 /* Main.storyboard */; };
@@ -37,7 +37,7 @@
 		548917B8221E3DC400520B81 /* QX_Protocol.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QX_Protocol.c; sourceTree = "<group>"; };
 		548917B9221E3DC400520B81 /* QX_Parsing_Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_Parsing_Functions.h; sourceTree = "<group>"; };
 		548917C0221E3E7500520B81 /* TrackingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingImageView.swift; sourceTree = "<group>"; };
-		548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
+		548E1B242216943200493729 /* VisionTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionTrackerViewController.swift; sourceTree = "<group>"; };
 		549661B72215FE2200863AF0 /* FF Object Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FF Object Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		549661BA2215FE2200863AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionBaseViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			children = (
 				549661BA2215FE2200863AF0 /* AppDelegate.swift */,
 				549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */,
-				548E1B242216943200493729 /* VisionObjectRecognitionViewController.swift */,
+				548E1B242216943200493729 /* VisionTrackerViewController.swift */,
 				54235610221BC77C002CBD1A /* Vision */,
 				548917BF221E3DE400520B81 /* FF API */,
 				549661BE2215FE2200863AF0 /* Main.storyboard */,
@@ -207,7 +207,7 @@
 				548917BC221E3DC400520B81 /* QX_Protocol_App.c in Sources */,
 				549661BD2215FE2200863AF0 /* CaptureSessionBaseViewController.swift in Sources */,
 				5423560E221BC76C002CBD1A /* CommonTypes.swift in Sources */,
-				548E1B252216943200493729 /* VisionObjectRecognitionViewController.swift in Sources */,
+				548E1B252216943200493729 /* VisionTrackerViewController.swift in Sources */,
 				548917BD221E3DC400520B81 /* QX_Parsing_Functions.c in Sources */,
 				548917BB221E3DC400520B81 /* QX.swift in Sources */,
 				549661BB2215FE2200863AF0 /* AppDelegate.swift in Sources */,

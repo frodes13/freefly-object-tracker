@@ -1,5 +1,5 @@
 //
-//  VisionObjectRecognitionViewController.swift
+//  VisionTrackerViewController.swift
 //  Elijah Wood Freefly Challenge
 //
 //  Created by Elijah Wood on 2/14/19.
@@ -8,9 +8,8 @@
 
 import UIKit
 import AVFoundation
-import Vision
 
-class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
+class VisionTrackerViewController: CaptureSessionBaseViewController {
     
     enum TrackingState {
         case tracking
@@ -281,7 +280,7 @@ class VisionObjectRecognitionViewController: CaptureSessionBaseViewController {
     }
 }
 
-extension VisionObjectRecognitionViewController: VisionTrackerProcessorDelegate {
+extension VisionTrackerViewController: VisionTrackerProcessorDelegate {
     func displayFrame(_ rects: [TrackedPolyRect]?) {
         DispatchQueue.main.async {
             
