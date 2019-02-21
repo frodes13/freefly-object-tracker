@@ -103,7 +103,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             // 0 - 10,000 speed
             
             // Defaults
-            let speedWindow = CGPoint(x: 200, y: 200) // Window in which to apply speed ramp
+            let speedWindow = CGPoint(x: 300, y: 300) // Window in which to apply speed ramp
             let movementWindow: CGFloat = 10 // Window in which we no longer attempt to center
             let maxSpeed: CGFloat = 10000 // Movi max speed
             
@@ -119,12 +119,12 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             }
             
             let pan = Float(((delta.x)*maxSpeed/speedWindow.x))
-            let tilt = -Float(((delta.y)*maxSpeed/speedWindow.y))
+            let tilt = -Float(((delta.y)*maxSpeed/speedWindow.y)) // Invert
             
-            #warning("How can we concurrently send pan and tilt rate data?")
             // Reccomended at 20hz, but we're running it slightly faster with the capture buffer
-            QX.Control277.set(roll: pan, tilt: tilt, pan: pan, gimbalFlags: Float(QX.Control277.INPUT_CONTROL_RZ_RATE))
-//            QX.Control277.set(roll: pan, tilt: tilt, pan: pan, gimbalFlags: Float(QX.Control277.INPUT_CONTROL_RY_RATE))
+            // Bitwise OR to concurrently send pan / tilt messages
+            let gimbalFlags = QX.Control277.INPUT_CONTROL_RZ_RATE | QX.Control277.INPUT_CONTROL_RY_RATE
+            QX.Control277.set(roll: pan, tilt: tilt, pan: pan, gimbalFlags: Float(gimbalFlags))
         }
     }
     
