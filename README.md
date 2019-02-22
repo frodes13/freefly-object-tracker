@@ -1,4 +1,4 @@
-# Tracking Object in Video with Movi Cinema Robot
+# Tracking Object in Live Capture with Movi Cinema Robot
 ### FF Object Tracker
 
 Apply Vision algorithms to track an object from live capture and have Movi keep it centered in frame using its gimbal. 
@@ -10,27 +10,27 @@ For exclusive use in Freefly Project Challenge.
  Limited developement time to eight consecutive hours.
  
  ### Movi Buttons
-- TOP: Toggle thirds demo. This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center. [View in Source](x-source-tag://GetTrackingCenterDeltaIsThirds)
-- TRIGGER: Reset track.
+- **TOP**: Toggle thirds demo. This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center. [View in Source](x-source-tag://GetTrackingCenterDeltaIsThirds)
+- **TRIGGER**: Reset track.
   
  ## Known Weaknesses
 
 - [`VisionTrackerProcessor`] does not handle losing confidence of the track very well.
 - Overall, the processor is not robust enough to handle an extensive array of dynamic frame sizes.
 - No current user adjustable settings for how the Movi attempts to center an object in frame. 
+- Does not handle orientation changes, so I've locked in **Landscape Right**.
 - Only tested on iPhone X and iPhone XR. 
-- Does not handle orientation changes, so I've locked in *Landscape Right*.
 
  ## Next Steps
  ### What I would like to accomplish if I had more time. 
 
-- General performance improvements.
-    - Dig deep into Memory Debugger.
-    - Attempt to decrease processing times and clean up concurrency models.
 - Ability to record videos using AVAssetWriter.
     - I was unable to take advantage of [`AVCaptureMovieFileOutput`] as I could not use with [`AVCaptureVideoDataOutput`] simultaneously.
 - Currently, I am using a linear speed ramp when moving the Movi. However, I would like to try an exponential ramp instead. This may offer increased effectiveness when tracking. [View in Source](x-source-tag://CenterMoviToTrackingCenter)
 - Interactive 'Rule of Thirds' grid to dial in exact position of your track in frame.
+- General performance improvements.
+    - Dig deep into Memory Debugger.
+    - Attempt to decrease processing times and clean up concurrency models.
 
  ## Other Creative Ideas
  
