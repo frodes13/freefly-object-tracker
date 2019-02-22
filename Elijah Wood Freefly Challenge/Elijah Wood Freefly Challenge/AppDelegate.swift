@@ -51,6 +51,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let qx = qx { qx.finish() }
     }
 
-
 }
 

@@ -164,7 +164,6 @@ class TrackingImageView: UIView {
     }
     
     func scale(cornerPoint point: CGPoint) -> CGPoint {
-
         // Adjust bBox from Vision.framework coordinate system (origin at LLC) to imageView coordinate system (origin at ULC)
         let pointY = 1.0 - point.y
         let scaleFactor = self.imageAreaRect.size

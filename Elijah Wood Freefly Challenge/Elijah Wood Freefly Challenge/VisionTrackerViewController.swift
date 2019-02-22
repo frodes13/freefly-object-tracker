@@ -22,16 +22,17 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         case disconnected
     }
     
-    private var visionProcessor: VisionTrackerProcessor!
+    // Vision Processor
     private var workQueue = DispatchQueue(label: "com.frodes.app", qos: .userInitiated)
+    private var visionProcessor: VisionTrackerProcessor!
     private var objectsToTrack = [TrackedPolyRect]()
     private var currentPixelBuffer: CVPixelBuffer?
-    private var currentMoviButtonState: MoviRXButtonStates = MoviRXButtonStates() // Temp
     
     // MOVI Control 277 Manager
     private var Control277ManagerThread: Timer?
     private var currentMoviPosition: MoviMoveRate = MoviMoveRate(mPan: 0.0, mTilt: 0.0)
-    
+    private var currentMoviButtonState: MoviRXButtonStates = MoviRXButtonStates() // Temp
+
     // State tracking
     private var trackingState: TrackingState = .stopped
     private var connectionState: ConnectionState = .disconnected
@@ -143,6 +144,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         
         var delta = CGPoint(x: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).x - trackingView.center.x, y: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).y - trackingView.center.y)
 
+        /// - Tag: GetTrackingCenterDeltaIsThirds
         // This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center
         if (isThirds) {
             let frameY = delta.y - (trackingView.frame.height/2)
@@ -182,7 +184,6 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
                 if (trackingState == .stopped) {
                     startTracking()
                 }
-                
             }
         default:
             break

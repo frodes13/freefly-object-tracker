@@ -1,13 +1,18 @@
 # Tracking Object in Video with Movi Cinema Robot
 ### FF Object Tracker
 
-Apply Vision algorithms to track an object from live capture and have Movi keep it centered in frame using gimbal. 
+Apply Vision algorithms to track an object from live capture and have Movi keep it centered in frame using its gimbal. 
+
 For exclusive use in Freefly Project Challenge.
  
- ## Technical Project Overview
+ ## Project Overview
  
  Limited developement time to eight consecutive hours.
  
+ ### Movi Buttons
+- TOP: Toggle thirds demo. This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center. [View in Source](x-source-tag://GetTrackingCenterDeltaIsThirds)
+- TRIGGER: Reset track.
+  
  ## Known Weaknesses
 
 - [`VisionTrackerProcessor`] does not handle losing confidence of the track very well.
@@ -23,7 +28,7 @@ For exclusive use in Freefly Project Challenge.
     - Dig deep into Memory Debugger.
     - Attempt to decrease processing times and clean up concurrency models.
 - Ability to record videos using AVAssetWriter.
-    - I was unable to take advantage of [`AVCaptureMovieFileOutput`] as I could not use [`AVCaptureVideoDataOutput`] simultaneously.
+    - I was unable to take advantage of [`AVCaptureMovieFileOutput`] as I could not use with [`AVCaptureVideoDataOutput`] simultaneously.
 - Currently, I am using a linear speed ramp when moving the Movi. However, I would like to try an exponential ramp instead. This may offer increased effectiveness when tracking. [View in Source](x-source-tag://CenterMoviToTrackingCenter)
 - Interactive 'Rule of Thirds' grid to dial in exact position of your track in frame.
 
@@ -33,4 +38,6 @@ For exclusive use in Freefly Project Challenge.
   
  ## Closing Notes
  
+ From habit, I encapsulated my project in a workspace to allow for CocoaPods, though I did not end up using any in this demo.
+
  Thank you, Freefly team for letting me have some fun with your API and Movi CR! Stemming from my serious excitement over this project, it was really hard to stop developement as I just kept wanting to explore and add features.

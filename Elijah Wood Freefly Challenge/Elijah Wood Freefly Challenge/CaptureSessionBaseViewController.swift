@@ -17,7 +17,6 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
     private let captureSession = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let captureOutput = AVCaptureVideoDataOutput()
-    private var movieOutput = AVCaptureMovieFileOutput()
     private let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     
     override func viewDidLoad() {
@@ -63,7 +62,7 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
         // Need to make sure visual aligns properly with the image track
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.connection?.videoOrientation = .landscapeRight // Set locked orientation
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill // This information is used elsewhere to align the track, syncronize this in the future...
         previewLayer.frame = self.view.bounds
         previewView.layer.addSublayer(previewLayer)
     

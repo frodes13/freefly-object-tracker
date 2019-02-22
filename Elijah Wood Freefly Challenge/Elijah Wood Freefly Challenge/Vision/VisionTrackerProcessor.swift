@@ -23,13 +23,12 @@ protocol VisionTrackerProcessorDelegate: class {
 }
 
 class VisionTrackerProcessor {
+    
     var trackingLevel = VNRequestTrackingLevel.accurate
     var objectsToTrack = [TrackedPolyRect]()
     weak var delegate: VisionTrackerProcessorDelegate?
     var centerDetectedObservation: CGPoint = CGPoint.zero // Keep this updated to indicate the center of our detected observation
-    var centerDetectionActive: Bool = false
-    
-    private var initialRectObservations = [VNRectangleObservation]()
+    var centerDetectionActive: Bool = false // Indicates when detected observation has been updated initially
     
     // Declare initial observations
     private var inputObservations = [UUID: VNDetectedObjectObservation]()
