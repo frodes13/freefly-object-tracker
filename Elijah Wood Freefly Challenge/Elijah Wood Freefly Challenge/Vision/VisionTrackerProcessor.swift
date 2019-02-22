@@ -55,7 +55,6 @@ class VisionTrackerProcessor {
 
     // MARK: ProcessFrame
     func processFrame(frame: CVPixelBuffer) throws {
-        
         // Confirm proper initialization
         if (!didInitialize) {
             initializeTrackerProcessor()

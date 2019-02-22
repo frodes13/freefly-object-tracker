@@ -27,6 +27,10 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     private var objectsToTrack = [TrackedPolyRect]()
     private var currentPixelBuffer: CVPixelBuffer?
     
+    // MOVI Control 277 Manager
+    private var Control277ManagerThread: Timer?
+    private var currentMoviPosition: MoviMoveRate = MoviMoveRate(mPan: 0, mTilt: 0)
+    
     // State tracking
     private var trackingState: TrackingState = .stopped
     private var connectionState: ConnectionState = .disconnected
@@ -50,7 +54,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         connectionLabel.layer.masksToBounds = true
         connectionLabel.layer.cornerRadius = 8.0
         
-        // Hmm do I need this?
+        // Prep display
         displayFrame(objectsToTrack)
     }
     
@@ -71,7 +75,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         currentPixelBuffer = pixelBuffer
         
         if (trackingState == .tracking) {
-            workQueue.sync {
+            workQueue.async {
                 do {
                     try self.visionProcessor.processFrame(frame: pixelBuffer)
                 } catch {
@@ -79,6 +83,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
                 }
             }
             
+            // Main Thread
             DispatchQueue.main.async {
                 self.centerMoviToTrackingCenter()
             }
@@ -93,7 +98,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         startCaptureSession()
     }
     
-    // MARK: Movi control
+    // MARK: Movi Control
     // Aim is to keep the detected observation in the center
     func centerMoviToTrackingCenter() {
         // Ensure we are connected to the Movi
@@ -105,7 +110,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             // 0 - 10,000 speed
             
             // Defaults
-            let speedWindow = CGPoint(x: 300, y: 300) // Window in which to apply speed ramp
+            let speedWindow = CGPoint(x: 300, y: 300) // Window in which to apply linear speed ramp
             let movementWindow: CGFloat = 10 // Window in which we no longer attempt to center
             let maxSpeed: CGFloat = 10000 // Movi max speed
             
@@ -123,22 +128,28 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             let pan = Float(((delta.x)*maxSpeed/speedWindow.x))
             let tilt = -Float(((delta.y)*maxSpeed/speedWindow.y)) // Invert
             
-            // Reccomended at 20hz, but we're running it slightly faster with the capture buffer
-            // Bitwise OR to concurrently send pan / tilt messages
-            let gimbalFlags = QX.Control277.INPUT_CONTROL_RZ_RATE | QX.Control277.INPUT_CONTROL_RY_RATE
-            QX.Control277.set(roll: pan, tilt: tilt, pan: pan, gimbalFlags: Float(gimbalFlags))
+            // Debug
+            // print("PT Rate: \(pan), \(tilt)")
+            
+            // Update Movi Position
+            currentMoviPosition = MoviMoveRate(mPan: pan, mTilt: tilt)
         }
     }
     
     // Return the delta between our display center and our detected observation center
     func getTrackingCenterDelta() -> CGPoint {
         
-        #warning("feature")
+        var delta = CGPoint(x: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).x - trackingView.center.x, y: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).y - trackingView.center.y)
+
+        // This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center
         if (isThirds) {
+            let frameY = delta.y - (trackingView.frame.height/2)
+            let third = trackingView.frame.height*(2/3)
             
+            delta.y = frameY + third
         }
         
-        return CGPoint(x: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).x - trackingView.center.x, y: trackingView.scale(cornerPoint: visionProcessor.centerDetectedObservation).y - trackingView.center.y)
+        return delta
     }
     
     // MARK: UIGestureRecognizer
@@ -161,7 +172,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             // Finish resizing of the object's boundong box
             let selectedBBox = trackingView.rubberbandingRectNormalized
             if selectedBBox.width > 0 && selectedBBox.height > 0 {
-                let rectColor = UIColor.green // Green = active tracking
+                let rectColor = MOVI_ORANGE_COLOR // Active tracking
                 self.objectsToTrack.append(TrackedPolyRect(cgRect: selectedBBox, color: rectColor))
                 
                 displayFrame(objectsToTrack)
@@ -176,23 +187,38 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         }
     }
     
+    // MARK: Tracking Functions
     func startTracking() {
         // Initialize processor
         visionProcessor.objectsToTrack = objectsToTrack
         self.trackingState = .tracking // Start track
+        
+        // 20hz Control277
+        Control277ManagerThread = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { (Timer) in
+            // Reccomended at 20hz
+            // Bitwise OR to concurrently send pan / tilt messages
+            // Limit to pan / tilt
+            let gimbalFlags = QX.Control277.INPUT_CONTROL_RZ_RATE | QX.Control277.INPUT_CONTROL_RY_RATE
+            QX.Control277.set(roll: self.currentMoviPosition.pan, tilt: self.currentMoviPosition.tilt, pan: self.currentMoviPosition.pan, gimbalFlags: Float(gimbalFlags))
+        })
     }
     
     func resetTracker() {
-        if (connectionState == .connected) {
-            // End control
-            QX.Control277.deferr()
+        DispatchQueue.main.async {
+            self.trackingState = .stopped // Stop track
+            self.Control277ManagerThread?.invalidate()
+            self.currentMoviPosition = MoviMoveRate(mPan: 0, mTilt: 0)
+            
+            if (self.connectionState == .connected) {
+                // End control
+                QX.Control277.deferr()
+                self.setMoviToMajesticMode()
+            }
+            
+            self.objectsToTrack.removeAll()
+            self.displayFrame(self.objectsToTrack)
+            self.visionProcessor.reset()
         }
-        
-        self.objectsToTrack.removeAll()
-        displayFrame(objectsToTrack)
-        
-        self.trackingState = .stopped // Stop track
-        self.visionProcessor.reset()
     }
     
     // MARK: IBActions
@@ -213,6 +239,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         thirdsButton.setTitleColor(isThirds ? UIColor.green : UIColor.white , for: .normal)
     }
     
+    // MARK: Movi API Functions
     func connectMovi() {
         // disconnect and wait for scan results
         qx?.btle.resetConnect("")
@@ -248,6 +275,23 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         qx?.btle.resetConnect("")
     }
     
+    func setMoviToMajesticMode() {
+        QX_ChangeValueAbsolute(454, strdup("Active Method top level"), 0);
+    }
+    
+    func setButton(_ e : QX.Event) {
+        // Top button
+        if (e.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
+            print("press 1")
+            thirds(self)
+        }
+        // Trigger button
+        if (e.isButtonEvent(QX.BTN_TRIGGER, QX.BTN.PRESS)) {
+            print("press 2")
+            resetTracker()
+        }
+    }
+    
     func updateUIStatus() {
         switch connectionState {
         case .connected:
@@ -266,11 +310,11 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         
     }
     
-    // MARK: QX Reciever
+    // MARK: Movi API QX Reciever
     // QX Reciever processes QX events.  Add an observer using E_KEY, and construct the event class from the notification
     @objc func QXR(_ notification: NSNotification) {
         let e = QX.Event.init(notification)
-        // print(e.toString())
+//         print(e.toString())
         
         if (e.getFlavor() == QX.Event.Flavor.CONNECTED) {
             statusLabel.text = BTLE.getLastSelected()
@@ -290,6 +334,8 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             updateUIStatus()
         }
  
+        // Display Movi button presses
+//        setButton(e)
     }
 }
 

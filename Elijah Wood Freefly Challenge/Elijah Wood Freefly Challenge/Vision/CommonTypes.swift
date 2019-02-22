@@ -11,6 +11,9 @@ import Foundation
 import UIKit
 import Vision
 
+// Freefly Movi Color (#ee715d)
+var MOVI_ORANGE_COLOR: UIColor = UIColor(red: 238/255, green: 113/255, blue: 93/255, alpha: 1)
+
 enum TrackedPolyRectStyle: Int {
     case solid
     case dashed
@@ -60,3 +63,60 @@ struct TrackedPolyRect {
     }
 }
 
+// Limit to pan / tilt
+struct MoviMoveRate {
+    var pan: Float
+    var tilt: Float
+    
+    init(mPan: Float, mTilt: Float) {
+        pan = mPan
+        tilt = mTilt
+    }
+}
+
+#warning("Needs work")
+struct MoviRXButtonStates {
+    /*
+     QX.BTN_TOP
+     QX.BTN_TRIGGER
+     QX.BTN_CENTER
+     QX.BTN_LEFT
+     QX.BTN_RIGHT
+     QX.BTN_DOWN
+     QX.BTN_UP
+    */
+    
+    var BTN_TOP: QX.BTN
+    var BTN_TRIGGER: QX.BTN
+    var BTN_CENTER: QX.BTN
+    var BTN_LEFT: QX.BTN
+    var BTN_RIGHT: QX.BTN
+    var BTN_DOWN: QX.BTN
+    var BTN_UP: QX.BTN
+    
+    // There's probably a better way to do this
+//    init(_ event: QX.Event) {
+//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
+//
+//        }
+//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
+//
+//        }
+//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
+//
+//        }
+//    }
+//
+    func isEqual(_ to: MoviRXButtonStates) -> Bool {
+        if (BTN_TOP == to.BTN_TOP
+            && BTN_TRIGGER == to.BTN_TRIGGER
+            && BTN_CENTER == to.BTN_CENTER
+            && BTN_LEFT == to.BTN_LEFT
+            && BTN_RIGHT == to.BTN_RIGHT
+            && BTN_DOWN == to.BTN_DOWN
+            && BTN_UP == to.BTN_UP) {
+            return true
+        }
+        return false
+    }
+}

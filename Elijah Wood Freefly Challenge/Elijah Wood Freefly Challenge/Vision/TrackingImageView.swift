@@ -65,13 +65,14 @@ class TrackingImageView: UIView {
         ctx.setLineWidth(2.0)
         
         // Make sure image scaling is correctly applied
-        guard scaleImage(to: rect.size) != nil else {
+        // Aspect Fill to match CaptureSession preview setting
+        guard scaleImage(to: rect.size, aspectFill: true) != nil else {
             return
         }
         
         // Draw rubberbanding rectangle, if available
         if self.rubberbandingRect != CGRect.zero {
-            ctx.setStrokeColor(UIColor.blue.cgColor)
+            ctx.setStrokeColor(UIColor.white.cgColor)
             
             // Switch to dashed lines for rubberbanding selection
             ctx.setLineDash(phase: dashedPhase, lengths: dashedLinesLengths)
@@ -101,39 +102,53 @@ class TrackingImageView: UIView {
         ctx.restoreGState()
     }
 
-    private func scaleImage(to viewSize: CGSize) -> UIImage? {
+    private func scaleImage(to viewSize: CGSize, aspectFill: Bool) -> UIImage? {
         guard self.image != nil && self.image.size != CGSize.zero else {
             return nil
         }
 
         self.imageAreaRect = CGRect.zero
-
-        // There are two possible cases to fully fit self.image into the the ImageTrackingView area:
-        // Option 1) image.width = view.width ==> image.height <= view.height
-        // Option 2) image.height = view.height ==> image.width <= view.width
+        
         let imageAspectRatio = self.image.size.width / self.image.size.height
 
-        // Check if we're in Option 1) case and initialize self.imageAreaRect accordingly
-        let imageSizeOption1 = CGSize(width: viewSize.width, height: floor(viewSize.width / imageAspectRatio))
-        if imageSizeOption1.height <= viewSize.height {
+        // AspectFill setting
+        if (aspectFill) {
+            // Force image.width = view.width
+            let imageSizeAspectFill = CGSize(width: viewSize.width, height: floor(viewSize.width / imageAspectRatio))
             let imageX: CGFloat = 0
-            let imageY = floor((viewSize.height - imageSizeOption1.height) / 2.0)
+            let imageY = floor((viewSize.height - imageSizeAspectFill.height) / 2.0)
             self.imageAreaRect = CGRect(x: imageX,
                                         y: imageY,
-                                        width: imageSizeOption1.width,
-                                        height: imageSizeOption1.height)
-        }
-
-        if self.imageAreaRect == CGRect.zero {
-            // Check if we're in Option 2) case if Option 1) didn't work out and initialize imageAreaRect accordingly
-            let imageSizeOption2 = CGSize(width: floor(viewSize.height * imageAspectRatio), height: viewSize.height)
-            if imageSizeOption2.width <= viewSize.width {
-                let imageX = floor((viewSize.width - imageSizeOption2.width) / 2.0)
-                let imageY: CGFloat = 0
+                                        width: imageSizeAspectFill.width,
+                                        height: imageSizeAspectFill.height)
+        } else {
+            // Here for future support, not used currently
+            // There are two possible cases to fully fit self.image into the the ImageTrackingView area:
+            // Option 1) image.width = view.width ==> image.height <= view.height
+            // Option 2) image.height = view.height ==> image.width <= view.width
+            
+            // Check if we're in Option 1) case and initialize self.imageAreaRect accordingly
+            let imageSizeOption1 = CGSize(width: viewSize.width, height: floor(viewSize.width / imageAspectRatio))
+            if imageSizeOption1.height <= viewSize.height {
+                let imageX: CGFloat = 0
+                let imageY = floor((viewSize.height - imageSizeOption1.height) / 2.0)
                 self.imageAreaRect = CGRect(x: imageX,
                                             y: imageY,
-                                            width: imageSizeOption2.width,
-                                            height: imageSizeOption2.height)
+                                            width: imageSizeOption1.width,
+                                            height: imageSizeOption1.height)
+            }
+            
+            if self.imageAreaRect == CGRect.zero {
+                // Check if we're in Option 2) case if Option 1) didn't work out and initialize imageAreaRect accordingly
+                let imageSizeOption2 = CGSize(width: floor(viewSize.height * imageAspectRatio), height: viewSize.height)
+                if imageSizeOption2.width <= viewSize.width {
+                    let imageX = floor((viewSize.width - imageSizeOption2.width) / 2.0)
+                    let imageY: CGFloat = 0
+                    self.imageAreaRect = CGRect(x: imageX,
+                                                y: imageY,
+                                                width: imageSizeOption2.width,
+                                                height: imageSizeOption2.height)
+                }
             }
         }
 
