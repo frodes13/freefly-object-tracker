@@ -15,7 +15,7 @@ For exclusive use in Freefly Project Challenge.
   
  ## Known Weaknesses
 
-- [`VisionTrackerProcessor`] does not handle losing confidence of the track very well.
+- `VisionTrackerProcessor` does not handle losing confidence of the track very well.
 - Overall, the processor is not robust enough to handle an extensive array of dynamic frame sizes.
 - No current user adjustable settings for how the Movi attempts to center an object in frame. 
 - Does not handle orientation changes, so I've locked in **Landscape Right**.
@@ -25,7 +25,7 @@ For exclusive use in Freefly Project Challenge.
  ### What I would like to accomplish if I had more time. 
 
 - Ability to record videos using AVAssetWriter.
-    - I was unable to take advantage of [`AVCaptureMovieFileOutput`] as I could not use with [`AVCaptureVideoDataOutput`] simultaneously.
+    - I was unable to take advantage of `AVCaptureMovieFileOutput` as I could not use with `AVCaptureVideoDataOutput` simultaneously.
 - Currently, I am using a linear speed ramp when moving the Movi. However, I would like to try an exponential ramp instead. This may offer increased effectiveness when tracking. [View in Source](x-source-tag://CenterMoviToTrackingCenter)
 - Interactive 'Rule of Thirds' grid to dial in exact position of your track in frame.
 - General performance improvements.
@@ -34,7 +34,7 @@ For exclusive use in Freefly Project Challenge.
 
  ## Other Creative Ideas
  
- Initially, as I just adopted a cat, I wanted to build an autonomous cat toy robot that used a laser pointer to play with the cat. The idea was that by implementing visual maching learning (using  [`VNCoreMLRequest`] and a custom model based in Darknet YOLO), I could assess whether a cat has entered the frame. If it has, I would attempt to track the cat, turn on the laser pointer, and apply a creative algorithm that pushes the laser wherever the cat is not. After initial evaluation, implementing a custom Core ML model would increase project developement time over eight hours, so I tabled the idea.  
+ Initially, as I just adopted a cat, I wanted to build an autonomous cat toy robot that used a laser pointer to play with the cat. The idea was that by implementing visual maching learning (using  `VNCoreMLRequest` and a custom model based in Darknet YOLO), I could assess whether a cat has entered the frame. If it has, I would attempt to track the cat, turn on the laser pointer, and apply a creative algorithm that pushes the laser wherever the cat is not. After initial evaluation, implementing a custom Core ML model would increase project developement time over eight hours, so I tabled the idea.  
   
  ## Closing Notes
  
