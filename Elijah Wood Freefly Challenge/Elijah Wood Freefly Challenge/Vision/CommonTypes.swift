@@ -74,7 +74,7 @@ struct MoviMoveRate {
     }
 }
 
-#warning("Needs work")
+// LIMITED in its current form, QUICK DEMO PURPOSES
 struct MoviRXButtonStates {
     /*
      QX.BTN_TOP
@@ -89,32 +89,42 @@ struct MoviRXButtonStates {
     var BTN_TOP: QX.BTN
     var BTN_TRIGGER: QX.BTN
     var BTN_CENTER: QX.BTN
-    var BTN_LEFT: QX.BTN
-    var BTN_RIGHT: QX.BTN
-    var BTN_DOWN: QX.BTN
-    var BTN_UP: QX.BTN
+//    var BTN_LEFT: QX.BTN
+//    var BTN_RIGHT: QX.BTN
+//    var BTN_DOWN: QX.BTN
+//    var BTN_UP: QX.BTN
     
-    // There's probably a better way to do this
-//    init(_ event: QX.Event) {
-//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
-//
-//        }
-//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
-//
-//        }
-//        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
-//
-//        }
-//    }
-//
+    // There's a better way to do this
+    // Limited in its current form
+    init(_ event: QX.Event) {
+        if (event.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
+            BTN_TOP = QX.BTN.PRESS
+        } else {
+            BTN_TOP = QX.BTN.RELEASE
+        }
+        if (event.isButtonEvent(QX.BTN_TRIGGER, QX.BTN.PRESS)) {
+            BTN_TRIGGER = QX.BTN.PRESS
+        } else {
+            BTN_TRIGGER = QX.BTN.RELEASE
+        }
+        if (event.isButtonEvent(QX.BTN_CENTER, QX.BTN.PRESS)) {
+            BTN_CENTER = QX.BTN.PRESS
+        } else {
+            BTN_CENTER = QX.BTN.RELEASE
+        }
+    }
+    
+    init() {
+        // Set initial state
+        BTN_TOP = QX.BTN.RELEASE
+        BTN_TRIGGER = QX.BTN.RELEASE
+        BTN_CENTER = QX.BTN.RELEASE
+    }
+
     func isEqual(_ to: MoviRXButtonStates) -> Bool {
         if (BTN_TOP == to.BTN_TOP
             && BTN_TRIGGER == to.BTN_TRIGGER
-            && BTN_CENTER == to.BTN_CENTER
-            && BTN_LEFT == to.BTN_LEFT
-            && BTN_RIGHT == to.BTN_RIGHT
-            && BTN_DOWN == to.BTN_DOWN
-            && BTN_UP == to.BTN_UP) {
+            && BTN_CENTER == to.BTN_CENTER) {
             return true
         }
         return false

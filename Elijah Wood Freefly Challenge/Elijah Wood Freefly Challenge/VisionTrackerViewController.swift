@@ -26,10 +26,11 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     private var workQueue = DispatchQueue(label: "com.frodes.app", qos: .userInitiated)
     private var objectsToTrack = [TrackedPolyRect]()
     private var currentPixelBuffer: CVPixelBuffer?
+    private var currentMoviButtonState: MoviRXButtonStates = MoviRXButtonStates() // Temp
     
     // MOVI Control 277 Manager
     private var Control277ManagerThread: Timer?
-    private var currentMoviPosition: MoviMoveRate = MoviMoveRate(mPan: 0, mTilt: 0)
+    private var currentMoviPosition: MoviMoveRate = MoviMoveRate(mPan: 0.0, mTilt: 0.0)
     
     // State tracking
     private var trackingState: TrackingState = .stopped
@@ -100,9 +101,10 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     
     // MARK: Movi Control
     // Aim is to keep the detected observation in the center
+    /// - Tag: CenterMoviToTrackingCenter
     func centerMoviToTrackingCenter() {
         // Ensure we are connected to the Movi
-        if (connectionState == .connected) {
+        if (connectionState == .connected && visionProcessor.centerDetectionActive) {
             // Roll and pan (+) = gimbal right
             // Roll and pan (-) = gimbal left
             // Tilt (+) = gimbal down
@@ -110,7 +112,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             // 0 - 10,000 speed
             
             // Defaults
-            let speedWindow = CGPoint(x: 300, y: 300) // Window in which to apply linear speed ramp
+            let speedWindow = CGPoint(x: 300, y: 300) // Window in which to apply LINEAR speed ramp
             let movementWindow: CGFloat = 10 // Window in which we no longer attempt to center
             let maxSpeed: CGFloat = 10000 // Movi max speed
             
@@ -129,7 +131,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
             let tilt = -Float(((delta.y)*maxSpeed/speedWindow.y)) // Invert
             
             // Debug
-            // print("PT Rate: \(pan), \(tilt)")
+            //print("PT Rate: \(pan), \(tilt)")
             
             // Update Movi Position
             currentMoviPosition = MoviMoveRate(mPan: pan, mTilt: tilt)
@@ -204,20 +206,21 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     }
     
     func resetTracker() {
-        DispatchQueue.main.async {
-            self.trackingState = .stopped // Stop track
-            self.Control277ManagerThread?.invalidate()
-            self.currentMoviPosition = MoviMoveRate(mPan: 0, mTilt: 0)
-            
-            if (self.connectionState == .connected) {
-                // End control
-                QX.Control277.deferr()
-                self.setMoviToMajesticMode()
-            }
-            
-            self.objectsToTrack.removeAll()
-            self.displayFrame(self.objectsToTrack)
+        trackingState = .stopped // Stop track
+        Control277ManagerThread?.invalidate()
+        currentMoviPosition = MoviMoveRate(mPan: 0.0, mTilt: 0.0)
+        
+        objectsToTrack.removeAll()
+        displayFrame(objectsToTrack)
+        
+        workQueue.async {
             self.visionProcessor.reset()
+        }
+
+        if (self.connectionState == .connected) {
+            // End control
+            QX.Control277.deferr()
+            setMoviToMajesticMode()
         }
     }
     
@@ -280,16 +283,28 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     }
     
     func setButton(_ e : QX.Event) {
-        // Top button
-        if (e.isButtonEvent(QX.BTN_TOP, QX.BTN.PRESS)) {
-            print("press 1")
+        
+        let buttonState = MoviRXButtonStates(e) // Initialize with event
+        
+        // Only run if there's a change
+        if (buttonState.isEqual(currentMoviButtonState)) {
+            return
+        }
+        
+        if (buttonState.BTN_TOP == QX.BTN.PRESS) {
             thirds(self)
         }
-        // Trigger button
-        if (e.isButtonEvent(QX.BTN_TRIGGER, QX.BTN.PRESS)) {
-            print("press 2")
+        
+        if (buttonState.BTN_TRIGGER == QX.BTN.PRESS) {
             resetTracker()
         }
+        
+        if (buttonState.BTN_CENTER == QX.BTN.PRESS) {
+            
+        }
+        
+        // Set new current state
+        currentMoviButtonState = buttonState
     }
     
     func updateUIStatus() {
@@ -335,7 +350,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         }
  
         // Display Movi button presses
-//        setButton(e)
+        setButton(e)
     }
 }
 
@@ -352,7 +367,13 @@ extension VisionTrackerViewController: VisionTrackerProcessorDelegate {
             let uiImage = UIImage(ciImage: ciImage)
             self.trackingView.image = uiImage
             
-            self.trackingView.polyRects = rects ?? self.objectsToTrack // Default
+            // Make some small adjustments based on TrackingState
+            if (self.trackingState == .stopped) {
+                self.trackingView.polyRects = [] // Default
+            } else {
+                self.trackingView.polyRects = rects ?? self.objectsToTrack // Default
+            }
+            
             self.trackingView.rubberbandingStart = CGPoint.zero
             self.trackingView.rubberbandingVector = CGPoint.zero
             

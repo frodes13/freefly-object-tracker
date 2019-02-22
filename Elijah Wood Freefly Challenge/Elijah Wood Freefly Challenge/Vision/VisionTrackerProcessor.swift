@@ -27,7 +27,8 @@ class VisionTrackerProcessor {
     var objectsToTrack = [TrackedPolyRect]()
     weak var delegate: VisionTrackerProcessorDelegate?
     var centerDetectedObservation: CGPoint = CGPoint.zero // Keep this updated to indicate the center of our detected observation
-
+    var centerDetectionActive: Bool = false
+    
     private var initialRectObservations = [VNRectangleObservation]()
     
     // Declare initial observations
@@ -107,11 +108,13 @@ class VisionTrackerProcessor {
     }
     
     func calculateDetectedObservationCenter(_ rect: CGRect) {
+        centerDetectionActive = true
         centerDetectedObservation = CGPoint(x: rect.midX, y: rect.midY)
     }
     
     // MARK: Reset initial conditions
     func reset() {
         didInitialize = false
+        centerDetectionActive = false
     }
 }

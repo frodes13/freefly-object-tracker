@@ -15,11 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // FF API Initialization
         if (qx == nil) { qx = QX() }
+        
+        // Disable idle timer
+        UIApplication.shared.isIdleTimerDisabled = true
 
         return true
     }
