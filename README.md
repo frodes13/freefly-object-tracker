@@ -15,6 +15,7 @@ Use your finger to drag a rectangle over the object you want to track. It will t
  ### Movi Buttons
 - **TOP**: Toggle thirds demo. This is just a quick feature idea that will lock the track to rule of thirds on the Y axis, instead of center. [View in Source](x-source-tag://GetTrackingCenterDeltaIsThirds)
 - **TRIGGER**: Reset track.
+- **CENTER**: Toggle recording.
   
  ## Known Weaknesses
 
@@ -22,6 +23,7 @@ Use your finger to drag a rectangle over the object you want to track. It will t
 - Overall, the processor is not robust enough to handle an extensive array of dynamic frame sizes.
 - No current user adjustable settings for how the Movi attempts to center an object in frame. 
 - Does not handle orientation changes, so I've locked in **Landscape Right**.
+- Does not handle user permissions errors. 
 - Only tested on iPhone X and iPhone XR. 
 
  ## Next Steps

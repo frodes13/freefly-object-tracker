@@ -86,17 +86,34 @@
                                             <action selector="thirds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f6P-d2-V79"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GAL-Ds-M1g">
+                                        <rect key="frame" x="767" y="168.5" width="77" height="77"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="77" id="CNB-dt-c9G"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="77" id="JcW-YN-uA2"/>
+                                        </constraints>
+                                        <state key="normal" title="RECORD">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SA6-Qw-y5E"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="3zG-PD-Npj" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="11" id="8Ea-xb-nJ0"/>
                                     <constraint firstItem="cpY-YW-T54" firstAttribute="leading" secondItem="r4g-ep-GYm" secondAttribute="leading" constant="52" id="DGx-bb-2aP"/>
+                                    <constraint firstAttribute="trailing" secondItem="GAL-Ds-M1g" secondAttribute="trailing" constant="52" id="Dz4-6e-DE0"/>
                                     <constraint firstItem="dh9-EG-5gN" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="11" id="GWl-nJ-zrs"/>
+                                    <constraint firstItem="GAL-Ds-M1g" firstAttribute="centerY" secondItem="r4g-ep-GYm" secondAttribute="centerY" id="K7g-mt-tmB"/>
                                     <constraint firstItem="3zG-PD-Npj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cpY-YW-T54" secondAttribute="trailing" id="Nbb-Tc-eyW"/>
                                     <constraint firstAttribute="bottom" secondItem="mhn-cL-Fgm" secondAttribute="bottom" constant="29" id="RRV-Uq-sr9"/>
                                     <constraint firstItem="cpY-YW-T54" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="10" id="aOB-pu-hMl"/>
                                     <constraint firstAttribute="trailing" secondItem="mhn-cL-Fgm" secondAttribute="trailing" id="eKQ-oD-H6Q"/>
                                     <constraint firstItem="KcF-6G-Nsz" firstAttribute="leading" secondItem="dh9-EG-5gN" secondAttribute="trailing" constant="5" id="eMa-KU-jgj"/>
                                     <constraint firstItem="KcF-6G-Nsz" firstAttribute="top" secondItem="r4g-ep-GYm" secondAttribute="top" constant="13" id="eew-Fi-beU"/>
+                                    <constraint firstItem="GAL-Ds-M1g" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="r4g-ep-GYm" secondAttribute="leading" id="gfs-4F-9cR"/>
                                     <constraint firstAttribute="trailing" secondItem="KcF-6G-Nsz" secondAttribute="trailing" constant="52" id="h5X-K2-HAM"/>
                                     <constraint firstItem="mhn-cL-Fgm" firstAttribute="leading" secondItem="r4g-ep-GYm" secondAttribute="leading" id="iYF-qh-nnF"/>
                                     <constraint firstItem="dh9-EG-5gN" firstAttribute="leading" secondItem="3zG-PD-Npj" secondAttribute="trailing" constant="67" id="nQA-hz-nor"/>
@@ -123,6 +140,7 @@
                         <outlet property="connectionButton" destination="dh9-EG-5gN" id="WiM-Xu-dUW"/>
                         <outlet property="connectionLabel" destination="KcF-6G-Nsz" id="09O-KW-otz"/>
                         <outlet property="previewView" destination="TYb-yI-Wun" id="nJx-NL-AVW"/>
+                        <outlet property="recordButton" destination="GAL-Ds-M1g" id="non-cu-Deb"/>
                         <outlet property="statusLabel" destination="mhn-cL-Fgm" id="sNM-3z-sKf"/>
                         <outlet property="thirdsButton" destination="3zG-PD-Npj" id="aNb-60-nfW"/>
                         <outlet property="trackingView" destination="r4g-ep-GYm" id="Ihf-4K-AeM"/>
