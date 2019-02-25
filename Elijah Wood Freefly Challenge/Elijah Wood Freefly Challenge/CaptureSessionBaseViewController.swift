@@ -14,11 +14,13 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
     
     @IBOutlet weak private var previewView: UIView!
     
+    private let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
+
+    // AVCaptureSession
     private let captureSession = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let captureOutput = AVCaptureVideoDataOutput()
     private let audioOutput = AVCaptureAudioDataOutput()
-    private let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     
     // AVAssetWriter
     private(set) var isRecording = false
@@ -68,7 +70,7 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
         captureSession.addOutput(captureOutput)
 
         // Add audio output to AVCaptureSession
-        guard captureSession.canAddOutput(audioOutput)  else {
+        guard captureSession.canAddOutput(audioOutput) else {
             print("Could not add audio data output to the session")
             return
         }
@@ -105,24 +107,7 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // Subclass
-        
-        guard CMSampleBufferDataIsReady(sampleBuffer) else { return }
-        
-        let writable = canWrite()
-        
-        if (writable && sessionAtSourceTime == nil) {
-            // Start writing
-            sessionAtSourceTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-            videoWriter.startSession(atSourceTime: sessionAtSourceTime!)
-        }
-        
-        if (writable && output == captureOutput && videoWriterInput.isReadyForMoreMediaData) {
-            // Write video buffer
-            videoWriterInput.append(sampleBuffer)
-        } else if (writable && output == audioOutput && audioWriterInput.isReadyForMoreMediaData) {
-            // Write audio buffer
-            audioWriterInput.append(sampleBuffer)
-        }
+        writeFromCapture(output, didOutput: sampleBuffer)
     }
     
     func captureOutput(_ output: AVCaptureOutput, didDrop didDropSampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
@@ -179,6 +164,30 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
         writerIsInitialized = true
     }
     
+    // Write from AVCaptureOutput
+    func writeFromCapture(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer) {
+        guard CMSampleBufferDataIsReady(sampleBuffer) else { return }
+        
+        // Make sure we can write
+        if (!canWrite()) {
+            return
+        }
+        
+        if (sessionAtSourceTime == nil) {
+            // Start writing
+            sessionAtSourceTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+            videoWriter.startSession(atSourceTime: sessionAtSourceTime!)
+        }
+        
+        if (output == captureOutput && videoWriterInput.isReadyForMoreMediaData) {
+            // Write video buffer
+            videoWriterInput.append(sampleBuffer)
+        } else if (output == audioOutput && audioWriterInput.isReadyForMoreMediaData) {
+            // Write audio buffer
+            audioWriterInput.append(sampleBuffer)
+        }
+    }
+    
     func startRecording() {
         guard !isRecording else { return }
         
@@ -199,15 +208,14 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
             self?.sessionAtSourceTime = nil
             guard let url = self?.videoWriter.outputURL else { return }
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-                if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.relativePath) {
-                    UISaveVideoAtPathToSavedPhotosAlbum(url.relativePath, nil, nil, nil)
-                }
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.relativePath) {
+                UISaveVideoAtPathToSavedPhotosAlbum(url.relativePath, nil, nil, nil)
             }
             
             self?.writerIsInitialized = false
         }
     }
+    
     private func canWrite() -> Bool {
         return isRecording
             && videoWriter != nil
