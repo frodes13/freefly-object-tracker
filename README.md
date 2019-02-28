@@ -40,9 +40,9 @@ Use your finger to drag a rectangle over the object you want to track. It will t
 
  ## Other Creative Ideas
  
- Initially, as I just adopted a cat, I wanted to build an autonomous cat toy robot that used a laser pointer to play with the cat. The idea was that by implementing visual maching learning (using  `VNCoreMLRequest` and a custom model based in Darknet YOLO), I could assess whether a cat has entered the frame. If it has, I would attempt to track the cat, turn on the laser pointer, and apply a creative algorithm that pushes the laser wherever the cat is not. After initial evaluation, implementing a custom Core ML model would increase project developement time over eight hours, so I tabled the idea.  
+ Initially, as I just adopted a cat, I wanted to build an autonomous cat toy robot that used a laser pointer to play with the cat. The idea was that by implementing visual machine learning (using  `VNCoreMLRequest` and a custom model based in Darknet YOLO), I could assess whether a cat has entered the frame. If it has, I would attempt to track the cat, turn on the laser pointer, and apply a creative algorithm that pushes the laser wherever the cat is not. After initial evaluation, implementing a custom Core ML model would increase project developement time over eight hours, so I tabled the idea.  
  
- My girlfriend is a dancer, so I placed the Movi in her dance studio and drew a rectangle around her entire body. She then proceeded to execute a complicated dance routine making use of the entire space. The Movi tracked her extremely well! **I will video this and send to you.** There are a lot of very interesting use cases here. She definately would use this feature to record herself.
+ My girlfriend is a dancer, so I placed the Movi in her dance studio and drew a rectangle around her entire body. She then proceeded to execute a complicated dance routine making use of the entire space. The Movi tracked her extremely well! **I will video this and send to you.** There are a lot of very interesting use cases here. She definitely would use this feature to record herself.
   
  ## Closing Notes
  
