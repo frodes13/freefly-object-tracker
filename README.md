@@ -1,7 +1,7 @@
 # Tracking Object in Live Capture with Movi Cinema Robot
 ### FF Object Tracker
 
-Apply Vision algorithms to track an object from live capture and have Movi keep it centered in frame using its gimbal. 
+Apply Vision algorithms to track an object from live capture and have Movi keep it centered in frame using its gimbal. [See it in action.](https://vimeo.com/319092583/3d6ee56feb) 
 
 For exclusive use in Freefly Project Challenge.
  

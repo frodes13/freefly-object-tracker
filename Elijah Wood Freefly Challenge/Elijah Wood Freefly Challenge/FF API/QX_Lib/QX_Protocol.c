@@ -517,7 +517,7 @@ void QX_BuildHeader(QX_Msg_t *Msg_p)
 void QX_ParseHeader(QX_Msg_t *Msg_p)
 {
 	volatile uint8_t OptionByte;
-	volatile uint32_t temp32;
+//    volatile uint32_t temp32;
 	Msg_p->MsgBuf_p = Msg_p->MsgBufAtt_p;		// Set the message pointer to the attribute position.
 
 

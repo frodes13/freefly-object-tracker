@@ -125,8 +125,8 @@ class QX {
         
         let program = ["", "NOTHING", "ADD_KF", "REPLACE_KF", "INSERT_KF", "ADD_KF_HERE", "REPLACE_KF_HERE", "INSERT_KF_HERE", "RESET_TIME", "DEL_KF", "DEL_ALL_KFs", "STREAM_KF", "STREAM_NEXT_KF"]
         let action = ["", "NOTHING", "MOVE_TO_KF", "MOVE_FIRST_KF", "MOVE_LAST_KF", "START_TL", "START_PREVIEW", "CANCEL"]
-        let p = program.index(of: pCmd)
-        let a = action.index(of: aCmd)
+        let p = program.firstIndex(of: pCmd)
+        let a = action.firstIndex(of: aCmd)
         if let p = p, let a = a {
             let f : [Float] = [ 1126, index, panDegs, panRevs, tiltDegs, rollDegs, kfSeconds, pd1, pw1, pd2, pw2, td1, tw1, td2, tw2, rd1, rw1, rd2, rw2, 0, Float(p - 1), Float(a - 1)]
             QX_ChangeAttributeAbsolute(1126, f);

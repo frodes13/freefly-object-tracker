@@ -336,7 +336,7 @@ private let CON_FAIL_TICK_OFFSET : Double = TIMEOUT_TICK + 1 // Timer tick offse
             
             // connect if this is the saved device
             if (BTLE.getLastSelected() == peripheral.name) {
-                print("last sel \(BTLE.getLastSelected())  \(peripheral.name)")
+                print("last sel \(BTLE.getLastSelected())  \(String(describing: peripheral.name))")
                 resetConnect(peripheral.name!)
             }
         }

@@ -787,7 +787,7 @@ void AddFloatAsFloat(float *v, uint32_t n) {
 void AddBitsAsByte(uint8_t *v, uint8_t start_bit, uint8_t n_bits)
 {
 	uint8_t temp = *msgPtr;
-	uint8_t mask;
+	uint8_t mask = 0x00;
 	
 	switch (n_bits){
 		case 1:
@@ -824,7 +824,7 @@ void AddBitsAsByte(uint8_t *v, uint8_t start_bit, uint8_t n_bits)
 // Absolute write direction applies the bitfield as an absolute value.
 void GetBitsAsByte(uint8_t *v, uint8_t start_bit, uint8_t n_bits)
 {
-	uint8_t mask, xor_mask;
+    uint8_t mask = 0x00, xor_mask;
 	
 	switch (n_bits){
 		case 1:
