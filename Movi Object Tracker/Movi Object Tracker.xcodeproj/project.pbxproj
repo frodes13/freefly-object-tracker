@@ -38,7 +38,7 @@
 		548917B9221E3DC400520B81 /* QX_Parsing_Functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QX_Parsing_Functions.h; sourceTree = "<group>"; };
 		548917C0221E3E7500520B81 /* TrackingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingImageView.swift; sourceTree = "<group>"; };
 		548E1B242216943200493729 /* VisionTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionTrackerViewController.swift; sourceTree = "<group>"; };
-		549661B72215FE2200863AF0 /* FF Object Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FF Object Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		549661B72215FE2200863AF0 /* Movi Object Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movi Object Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		549661BA2215FE2200863AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSessionBaseViewController.swift; sourceTree = "<group>"; };
 		549661BF2215FE2200863AF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -92,19 +92,19 @@
 			path = QX_Lib;
 			sourceTree = "<group>";
 		};
-		548917BF221E3DE400520B81 /* FF API */ = {
+		548917BF221E3DE400520B81 /* Movi API */ = {
 			isa = PBXGroup;
 			children = (
 				548917AE221E3DC300520B81 /* QX */,
 				548917B5221E3DC300520B81 /* QX_Lib */,
 			);
-			path = "FF API";
+			path = "Movi API";
 			sourceTree = "<group>";
 		};
 		549661AE2215FE2200863AF0 = {
 			isa = PBXGroup;
 			children = (
-				549661B92215FE2200863AF0 /* Elijah Wood Freefly Challenge */,
+				549661B92215FE2200863AF0 /* Movi Object Tracker */,
 				549661B82215FE2200863AF0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,33 +112,33 @@
 		549661B82215FE2200863AF0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				549661B72215FE2200863AF0 /* FF Object Tracker.app */,
+				549661B72215FE2200863AF0 /* Movi Object Tracker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		549661B92215FE2200863AF0 /* Elijah Wood Freefly Challenge */ = {
+		549661B92215FE2200863AF0 /* Movi Object Tracker */ = {
 			isa = PBXGroup;
 			children = (
 				549661BA2215FE2200863AF0 /* AppDelegate.swift */,
 				549661BC2215FE2200863AF0 /* CaptureSessionBaseViewController.swift */,
 				548E1B242216943200493729 /* VisionTrackerViewController.swift */,
 				54235610221BC77C002CBD1A /* Vision */,
-				548917BF221E3DE400520B81 /* FF API */,
+				548917BF221E3DE400520B81 /* Movi API */,
 				549661BE2215FE2200863AF0 /* Main.storyboard */,
 				549661C12215FE2400863AF0 /* Assets.xcassets */,
 				549661C32215FE2400863AF0 /* LaunchScreen.storyboard */,
 				549661C62215FE2400863AF0 /* Info.plist */,
 			);
-			path = "Elijah Wood Freefly Challenge";
+			path = "Movi Object Tracker";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		549661B62215FE2200863AF0 /* FF Object Tracker */ = {
+		549661B62215FE2200863AF0 /* Movi Object Tracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "FF Object Tracker" */;
+			buildConfigurationList = 549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "Movi Object Tracker" */;
 			buildPhases = (
 				549661B32215FE2200863AF0 /* Sources */,
 				549661B42215FE2200863AF0 /* Frameworks */,
@@ -148,9 +148,9 @@
 			);
 			dependencies = (
 			);
-			name = "FF Object Tracker";
+			name = "Movi Object Tracker";
 			productName = "Elijah Wood Freefly Challenge";
-			productReference = 549661B72215FE2200863AF0 /* FF Object Tracker.app */;
+			productReference = 549661B72215FE2200863AF0 /* Movi Object Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -169,7 +169,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 549661B22215FE2200863AF0 /* Build configuration list for PBXProject "FF Object Tracker" */;
+			buildConfigurationList = 549661B22215FE2200863AF0 /* Build configuration list for PBXProject "Movi Object Tracker" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -182,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				549661B62215FE2200863AF0 /* FF Object Tracker */,
+				549661B62215FE2200863AF0 /* Movi Object Tracker */,
 			);
 		};
 /* End PBXProject section */
@@ -363,14 +363,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QQR5H9RA96;
-				INFOPLIST_FILE = "Elijah Wood Freefly Challenge/Info.plist";
+				INFOPLIST_FILE = "Movi Object Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "frodes.Elijah-Wood-Freefly-Challenge";
+				PRODUCT_BUNDLE_IDENTIFIER = "frodes.movi-object-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Elijah Wood Freefly Challenge/FF API/QX/FF_API_IOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$PROJECT_DIR/Movi Object Tracker/Movi API/QX/FF_API_IOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -382,14 +382,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QQR5H9RA96;
-				INFOPLIST_FILE = "Elijah Wood Freefly Challenge/Info.plist";
+				INFOPLIST_FILE = "Movi Object Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "frodes.Elijah-Wood-Freefly-Challenge";
+				PRODUCT_BUNDLE_IDENTIFIER = "frodes.movi-object-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Elijah Wood Freefly Challenge/FF API/QX/FF_API_IOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$PROJECT_DIR/Movi Object Tracker/Movi API/QX/FF_API_IOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -398,7 +398,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		549661B22215FE2200863AF0 /* Build configuration list for PBXProject "FF Object Tracker" */ = {
+		549661B22215FE2200863AF0 /* Build configuration list for PBXProject "Movi Object Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				549661C72215FE2400863AF0 /* Debug */,
@@ -407,7 +407,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "FF Object Tracker" */ = {
+		549661C92215FE2400863AF0 /* Build configuration list for PBXNativeTarget "Movi Object Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				549661CA2215FE2400863AF0 /* Debug */,

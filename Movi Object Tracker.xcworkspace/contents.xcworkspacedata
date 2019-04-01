@@ -5,6 +5,6 @@
       location = "group:Elijah Wood Freefly Challenge/../README.md">
    </FileRef>
    <FileRef
-      location = "group:/Users/elijahwood/Documents/Xcode/Elijah Wood Freefly Challenge/Elijah Wood Freefly Challenge/FF Object Tracker.xcodeproj">
+      location = "group:Movi Object Tracker/Movi Object Tracker.xcodeproj">
    </FileRef>
 </Workspace>
