@@ -56,7 +56,6 @@ class CaptureSessionBaseViewController: UIViewController, AVCaptureVideoDataOutp
         captureSession.addInput(audioDeviceInput)
 
         // Should we optimize for Vision efficiency?
-        
         captureOutput.alwaysDiscardsLateVideoFrames = true
         captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
         
