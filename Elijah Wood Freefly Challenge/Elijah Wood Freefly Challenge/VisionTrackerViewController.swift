@@ -44,6 +44,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     @IBOutlet weak var connectionLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var thirdsButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +56,8 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         // Format labels
         connectionLabel.layer.masksToBounds = true
         connectionLabel.layer.cornerRadius = 8.0
+        recordButton.layer.masksToBounds = true
+        recordButton.layer.cornerRadius = 8.0
         
         // Prep display
         displayFrame(objectsToTrack)
@@ -70,6 +73,8 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     override func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        super.captureOutput(output, didOutput: sampleBuffer, from: connection) // Super
+        
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
@@ -243,6 +248,16 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         thirdsButton.setTitleColor(isThirds ? UIColor.green : UIColor.white , for: .normal)
     }
     
+    @IBAction func record(_ sender: Any) {
+        if (isRecording) {
+            stopRecording()
+            recordButton.setTitle("RECORD", for: .normal)
+        } else {
+            startRecording()
+            recordButton.setTitle("STOP", for: .normal)
+        }
+    }
+    
     // MARK: Movi API Functions
     func connectMovi() {
         // disconnect and wait for scan results
@@ -301,7 +316,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         }
         
         if (buttonState.BTN_CENTER == QX.BTN.PRESS) {
-            
+            record(self)
         }
         
         // Set new current state
@@ -353,6 +368,7 @@ class VisionTrackerViewController: CaptureSessionBaseViewController {
         // Display Movi button presses
         setButton(e)
     }
+
 }
 
 extension VisionTrackerViewController: VisionTrackerProcessorDelegate {
