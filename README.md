@@ -4,6 +4,8 @@
 Apply Vision algorithms to track an object from live capture and have [Movi](https://gomovi.com/) keep it centered in frame using its gimbal. [See it in action.](https://vimeo.com/319092583/3d6ee56feb) 
 
 Originally developed for use in a Freefly Project Challenge.
+
+Requires Movi firmware V1.3+.
  
  ## Project Overview
  
